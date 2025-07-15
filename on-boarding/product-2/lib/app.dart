@@ -6,7 +6,7 @@ void runApp() {
   final productManager = ProductManager();
 
   while (true) {
-    print('\n=== Product Management ===');
+    print('\n================== Product Management ==================');
     print('1. View all products');
     print('2. View product by ID');
     print('3. Add a product');
@@ -14,8 +14,10 @@ void runApp() {
     print('5. Delete a product');
     print('6. Exit');
 
+    print('==========================================================');
     stdout.write('Select an option: ');
     final input = stdin.readLineSync();
+    print('********************************************');
 
     switch (input) {
       case '1':
@@ -134,5 +136,6 @@ void runApp() {
         print('Invalid option. Please try again.');
         break;
     }
+    print('********************************************');
   }
 }
