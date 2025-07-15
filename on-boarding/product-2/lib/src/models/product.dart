@@ -3,7 +3,7 @@ class Product {
   final double _price;
   final String _description;
   static int _idCounter = 0;
-  final int _id;
+  int _id;
 
   Product({required String name, required double price, String? description})
     : _id = _idCounter++,
@@ -35,6 +35,11 @@ class Product {
   double get price => _price;
   String get description => _description;
   int get id => _id;
+  set id(int value) {
+    if (value < 0) throw ArgumentError('ID cannot be negative');
+    _id = value;
+    _idCounter = value + 1; // Ensure the counter is always ahead
+  }
 
   @override
   String toString() {
