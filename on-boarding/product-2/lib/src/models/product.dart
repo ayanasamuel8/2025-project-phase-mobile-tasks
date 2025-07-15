@@ -7,9 +7,12 @@ class Product {
 
   Product({required String name, required double price, String? description})
     : _id = _idCounter++,
-      _name = name,
+      _name = name.trim(),
       _price = price,
-      _description = description ?? '';
+      _description = description ?? '' {
+    if (price <= 0) throw ArgumentError('Price must be positive');
+    if (name.trim().isEmpty) throw ArgumentError('Name cannot be empty');
+  }
 
   Product._withId({
     required int id,
@@ -20,6 +23,9 @@ class Product {
        _name = name,
        _price = price,
        _description = description ?? '' {
+    if (price <= 0) throw ArgumentError('Price must be positive');
+    if (name.trim().isEmpty) throw ArgumentError('Name cannot be empty');
+
     if (id >= _idCounter) {
       _idCounter = id + 1;
     }
@@ -36,6 +42,11 @@ class Product {
   }
 
   factory Product.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('id') ||
+        !json.containsKey('name') ||
+        !json.containsKey('price')) {
+      throw FormatException('Missing required Product fields');
+    }
     return Product._withId(
       id: json['id'] as int,
       name: json['name'] as String,
