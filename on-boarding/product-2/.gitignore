@@ -1,2 +1,4 @@
 data/
 pubspec.lock
+.dart_tool/
+.packages   
