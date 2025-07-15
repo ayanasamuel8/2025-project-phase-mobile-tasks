@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 class FileStorage {
-  final String filePath = '../data/products.json';
+  final String filePath = 'lib/src/data/products.json';
 
   List<Product> loadProducts() {
     final file = File(filePath);
