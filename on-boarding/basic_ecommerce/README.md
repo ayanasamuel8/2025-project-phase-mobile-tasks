@@ -1,16 +1,48 @@
 # basic_ecommerce
 
-A new Flutter project.
+An example Flutter e-commerce application.
+
+## Features
+
+- Home page displaying a list of products
+- Product details page
+- Search products
+- Add new product
+
+## Project Structure
+
+- `lib/main.dart`: App entry point and route setup
+- `lib/model/`: Product model and product manager
+- `lib/constants/colors.dart`: Custom color definitions
+- `lib/views/pages/`: App pages (home, details, search, add)
+- `lib/views/widgets/`: Reusable UI widgets (product card, price slider, etc.)
+
+## Product Model
+
+Each product has:
+- id, title, description, price, rating, imageUrl, details, sizes
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Ensure you have Flutter installed: https://docs.flutter.dev/get-started/install
+2. Run `flutter pub get` to fetch dependencies
+3. Run the app: `flutter run`
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> Home page:
+![alt text](images/image-0.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+> Details page:
+![alt text](image.png)
+
+> Add product page:
+![alt text](images/image-2.png)
+
+> Search page:
+![alt text](images/image-3.png)
+
+
+## License
+
+MIT
