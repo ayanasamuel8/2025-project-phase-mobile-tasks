@@ -34,7 +34,7 @@ Each product has:
 ![alt text](images/image-0.png)
 
 > Details page:
-![alt text](image.png)
+![alt text](images/image-1.png)
 
 > Add product page:
 ![alt text](images/image-2.png)
