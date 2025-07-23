@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
               DetailsPage(product: args['product']),
             );
           case '/search':
-            return MaterialPageRoute(builder: (context) => const SearchPage());
+            return Animate.createFadeRoute(const SearchPage());
           case '/add':
             return Animate.createSlideUpRoute(const AddPage());
           case '/update':
