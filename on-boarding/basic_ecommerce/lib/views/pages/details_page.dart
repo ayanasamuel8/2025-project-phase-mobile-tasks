@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailsPage extends StatelessWidget {
-  DetailsPage({super.key, this.productId = 0});
+  DetailsPage({super.key, required this.productId});
 
   final int productId;
 
@@ -51,7 +51,7 @@ class DetailsPage extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
               Positioned(
-                top: 10,
+                top: 20,
                 left: 20,
                 child: IconButton(
                   icon: Icon(Icons.arrow_back_ios, color: Colors.indigo),
@@ -79,7 +79,7 @@ class DetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              products[productId].description,
+                              products[productId].category,
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -140,7 +140,7 @@ class DetailsPage extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      products[productId].details,
+                      products[productId].description,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
@@ -163,6 +163,8 @@ class DetailsPage extends StatelessWidget {
                     onPressed: () {},
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: Colors.red),
+                      maximumSize: Size(150, 50),
+                      minimumSize: Size(100, 40),
                     ),
                     child: const Text(
                       'Delete',
@@ -170,7 +172,16 @@ class DetailsPage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/update',
+                        arguments: {
+                          'productId': productId,
+                          'product': products[productId],
+                        },
+                      );
+                    },
                     child: const Text('Update'),
                     style: ElevatedButton.styleFrom(
                       maximumSize: Size(150, 50),

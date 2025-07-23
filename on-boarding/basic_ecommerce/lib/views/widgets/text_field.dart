@@ -1,10 +1,13 @@
+import 'package:basic_ecommerce/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// lib/views/widgets/text_field.dart (modification)
 Widget buildTextField(
   String label,
   Color? color, {
   int maxLines = 1,
+  TextEditingController? controller,
   bool border = false,
 }) {
   return Column(
@@ -14,28 +17,20 @@ Widget buildTextField(
         label,
         style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500),
       ),
-      SizedBox(height: 10),
+      SizedBox(height: 8),
       TextField(
+        controller: controller, // Use the passed controller
+        maxLines: maxLines,
         decoration: InputDecoration(
+          filled: true,
+          fillColor: color,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: border
-                ? BorderSide(color: Colors.red, width: 2.0)
+                ? BorderSide(color: CustomColor.grey, width: 2.0)
                 : BorderSide.none,
           ),
-          filled: true,
-          fillColor: color,
-          suffixIcon: label.toLowerCase() == 'price'
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: Icon(Icons.attach_money, color: Colors.grey[300]),
-                )
-              : null,
         ),
-        maxLines: maxLines,
-        keyboardType: label.toLowerCase() == 'price'
-            ? TextInputType.numberWithOptions(decimal: true)
-            : TextInputType.text,
       ),
     ],
   );

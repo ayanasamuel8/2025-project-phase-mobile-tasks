@@ -1,4 +1,5 @@
 import 'package:basic_ecommerce/views/pages/add_page.dart';
+import 'package:basic_ecommerce/views/pages/update_page.dart';
 import 'package:flutter/material.dart';
 import 'views/pages/home_page.dart';
 import 'views/pages/details_page.dart';
@@ -20,11 +21,28 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo),
       ),
       initialRoute: '/home',
-      routes: {
-        '/home': (context) => const HomePage(),
-        '/details': (context) => DetailsPage(),
-        '/search': (context) => const SearchPage(),
-        '/add': (context) => const AddPage(),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/home':
+            return MaterialPageRoute(builder: (context) => const HomePage());
+          case '/details':
+            final args = settings.arguments as Map<String, dynamic>;
+            return MaterialPageRoute(
+              builder: (context) =>
+                  DetailsPage(productId: args['productId'] ?? '0'),
+            );
+          case '/search':
+            return MaterialPageRoute(builder: (context) => const SearchPage());
+          case '/add':
+            return MaterialPageRoute(builder: (context) => const AddPage());
+          case '/update':
+            final args = settings.arguments as Map<String, dynamic>;
+            return MaterialPageRoute(
+              builder: (context) => UpdatePage(product: args['product']),
+            );
+          default:
+            return null;
+        }
       },
     );
   }

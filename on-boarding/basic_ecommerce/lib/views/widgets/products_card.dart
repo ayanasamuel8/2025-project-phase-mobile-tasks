@@ -8,7 +8,11 @@ List<Widget> cardBuilder(BuildContext context) {
   return products.map((product) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/details');
+        Navigator.pushNamed(
+          context,
+          '/details',
+          arguments: {'productId': product.id},
+        );
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -37,7 +41,7 @@ List<Widget> cardBuilder(BuildContext context) {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          product.description,
+                          product.category,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
