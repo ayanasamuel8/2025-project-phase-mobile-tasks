@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'views/pages/home_page.dart';
 import 'views/pages/details_page.dart';
 import 'views/pages/search_page.dart';
+import 'package:basic_ecommerce/utils/animation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,17 +28,17 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const HomePage());
           case '/details':
             final args = settings.arguments as Map<String, dynamic>;
-            return MaterialPageRoute(
-              builder: (context) => DetailsPage(product: args['product']),
+            return Animate.createFadeRoute(
+              DetailsPage(product: args['product']),
             );
           case '/search':
             return MaterialPageRoute(builder: (context) => const SearchPage());
           case '/add':
-            return MaterialPageRoute(builder: (context) => const AddPage());
+            return Animate.createSlideUpRoute(const AddPage());
           case '/update':
             final args = settings.arguments as Map<String, dynamic>;
-            return MaterialPageRoute(
-              builder: (context) => UpdatePage(product: args['product']),
+            return Animate.createSlideUpRoute(
+              UpdatePage(product: args['product']),
             );
           default:
             return null;

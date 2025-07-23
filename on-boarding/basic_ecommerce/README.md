@@ -95,8 +95,10 @@ For full cross-platform support, images would need to be uploaded to a cloud ser
 
 > 🔍 Search page:
 ![Search page](images/search.png)
+
 >📍Filter page:
 ![Filter page](images/search2.png)
+
 >🆕Update page:
 ![Update page](images/update.png)
 
