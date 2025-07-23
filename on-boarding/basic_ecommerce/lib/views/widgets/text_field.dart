@@ -2,7 +2,6 @@ import 'package:basic_ecommerce/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// lib/views/widgets/text_field.dart (modification)
 Widget buildTextField(
   String label,
   Color? color, {
@@ -19,7 +18,7 @@ Widget buildTextField(
       ),
       SizedBox(height: 8),
       TextField(
-        controller: controller, // Use the passed controller
+        controller: controller, // Uses the passed controller
         maxLines: maxLines,
         decoration: InputDecoration(
           filled: true,

@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
           case '/details':
             final args = settings.arguments as Map<String, dynamic>;
             return MaterialPageRoute(
-              builder: (context) =>
-                  DetailsPage(productId: args['productId'] ?? '0'),
+              builder: (context) => DetailsPage(product: args['product']),
             );
           case '/search':
             return MaterialPageRoute(builder: (context) => const SearchPage());

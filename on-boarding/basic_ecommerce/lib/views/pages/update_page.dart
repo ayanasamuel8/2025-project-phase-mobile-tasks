@@ -9,7 +9,7 @@ class UpdatePage extends StatelessWidget {
   const UpdatePage({super.key, required this.product});
 
   void _handleUpdateProduct(BuildContext context, Product updatedProduct) {
-    print('Updating Product: ${updatedProduct.title}');
+    debugPrint('Updating Product: ${updatedProduct.title}');
     // Logic to update the product via API/state management
     Navigator.pop(context);
   }

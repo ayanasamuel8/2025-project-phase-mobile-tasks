@@ -11,7 +11,7 @@ List<Widget> cardBuilder(BuildContext context) {
         Navigator.pushNamed(
           context,
           '/details',
-          arguments: {'productId': product.id},
+          arguments: {'product': product},
         );
       },
       child: Container(

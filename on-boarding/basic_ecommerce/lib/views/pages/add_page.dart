@@ -1,4 +1,3 @@
-// lib/views/add_page.dart (Refactored)
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:basic_ecommerce/views/widgets/product_form.dart';
@@ -8,9 +7,7 @@ class AddPage extends StatelessWidget {
   const AddPage({super.key});
 
   void _handleAddProduct(Product product) {
-    // Here you would call your API or state management solution to add the product
     print('Adding Product: ${product.title}');
-    // Example: context.read<ProductProvider>().addProduct(product);
   }
 
   @override

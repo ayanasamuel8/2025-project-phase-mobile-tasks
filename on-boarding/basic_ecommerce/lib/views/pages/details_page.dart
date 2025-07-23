@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailsPage extends StatelessWidget {
-  DetailsPage({super.key, required this.productId});
+  DetailsPage({super.key, required this.product});
 
-  final int productId;
+  final Product product;
 
   Container _buildSizeCard(int size) {
     return Container(
@@ -31,7 +31,7 @@ class DetailsPage extends StatelessWidget {
     );
   }
 
-  List<Container> _buildSizeList(Product product) {
+  List<Container> _buildSizeList() {
     return product.sizes.map((size) => _buildSizeCard(size)).toList();
   }
 
@@ -79,7 +79,7 @@ class DetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              products[productId].category,
+                              product.category,
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -88,7 +88,7 @@ class DetailsPage extends StatelessWidget {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              products[productId].title,
+                              product.title,
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 20,
@@ -104,7 +104,7 @@ class DetailsPage extends StatelessWidget {
                                 Icon(Icons.star, color: Colors.amber, size: 20),
                                 SizedBox(width: 5),
                                 Text(
-                                  '(${products[productId].rating.toStringAsFixed(1)})',
+                                  '(${product.rating.toStringAsFixed(1)})',
                                   style: GoogleFonts.sora(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 12,
@@ -115,7 +115,7 @@ class DetailsPage extends StatelessWidget {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              '\$${products[productId].price}',
+                              '\$${product.price}',
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
@@ -136,11 +136,11 @@ class DetailsPage extends StatelessWidget {
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: _buildSizeList(products[productId]),
+                      children: _buildSizeList(),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      products[productId].description,
+                      product.description,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
@@ -176,10 +176,7 @@ class DetailsPage extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         '/update',
-                        arguments: {
-                          'productId': productId,
-                          'product': products[productId],
-                        },
+                        arguments: {'product': product},
                       );
                     },
                     child: const Text('Update'),
