@@ -14,3 +14,23 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Linter Setup & Usage
+
+This project uses [Flutter Lints](https://pub.dev/packages/flutter_lints) for enforcing coding standards and best practices.
+
+Linter configuration is found in `analysis_options.yaml`.
+
+### How to Run Linter
+
+To analyze your code and check for lint issues, run:
+
+```powershell
+flutter analyze
+```
+
+This will display any errors, warnings, or lint violations in your codebase.
+
+### Custom Rules
+
+You can customize lint rules in `analysis_options.yaml` under the `linter` section.
