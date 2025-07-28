@@ -1,6 +1,5 @@
 # 🛒ecommerce_app
 
-
 A new Flutter project.
 
 ## 🚀Getting Started
@@ -17,7 +16,6 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 ## 🧹Linter Setup & Usage
-
 
 This project uses [Flutter Lints](https://pub.dev/packages/flutter_lints) for enforcing coding standards and best practices.
 
@@ -38,7 +36,6 @@ This will display any errors, warnings, or lint violations in your codebase.
 You can customize lint rules in `analysis_options.yaml` under the `linter` section.
  
 ## 🏛️Domain Layer
-
 
 The `lib/features/products/domain` directory implements the Domain Layer of the app, following clean architecture principles. This layer contains the core business logic and abstractions for the product feature.
 
@@ -62,7 +59,6 @@ Refer to the files in `lib/features/products/domain/` for details on each compon
 
 ## 🧪Usecase Tests
 
-
 Unit tests are provided for each usecase in the domain layer to ensure correct business logic and repository interaction. These tests use the `mocktail` package to mock dependencies and verify expected behavior.
 
 **Test files:**
@@ -79,11 +75,79 @@ Unit tests are provided for each usecase in the domain layer to ensure correct b
 
 🧑‍🔬To run all tests:
 
-
 ```powershell
 flutter test
 ```
 
 📝 Refer to the test files for specific examples and details.
 
-Refer to the test files for specific examples and details.
+---
+
+## 🗄️Data Layer Architecture & Flow
+
+The Data Layer is responsible for all data-related operations in the app, including fetching, storing, and transforming data. It acts as the bridge between external data sources (APIs, databases) and the domain layer.
+
+### Structure
+ - **Models:**
+   - Located in `lib/features/products/data/models/`.
+   - Example: `ProductModel` extends the domain `Product` entity and adds serialization/deserialization logic.
+ - **(Extendable):**
+   - As the app grows, you can add `datasources/` for API/local storage logic and `repositories/` for concrete implementations.
+
+### Data Flow
+1. **Fetching Data:**
+   - Data is fetched from an external source (e.g., API) and parsed into a `ProductModel` using `ProductModel.fromJson()`.
+2. **Mapping to Domain:**
+   - `ProductModel` inherits from the domain `Product` entity, so it can be used directly in business logic.
+3. **Saving/Updating Data:**
+   - When saving or updating, `ProductModel.toJson()` converts the model back to a map for transmission/storage.
+
+### Example Usage
+```dart
+final productMap = json.decode(productJson);
+final productModel = ProductModel.fromJson(productMap);
+// Use productModel in your app or pass to domain layer
+final jsonMap = productModel.toJson();
+```
+
+### Data Layer Tests & Fixtures
+ - Tests for the data layer are located in `test/features/products/data/models/product_model_test.dart`.
+ - These tests use fixture files to provide consistent sample data for verifying model behavior.
+ - The fixture system loads a sample JSON file (e.g., `product.json`) and decodes it for use in tests.
+
+**What is tested:**
+ - Correct parsing from JSON to model (`fromJson`).
+ - Correct conversion from model to JSON (`toJson`).
+ - Symmetry between `fromJson` and `toJson` (round-trip conversion).
+
+**Sample test:**
+```dart
+test('fromJson returns correct ProductModel', () {
+  final model = ProductModel.fromJson(productMap);
+  expect(model.id, 1);
+  expect(model.name, 'Product Name');
+  // ...other assertions
+});
+```
+
+**How to run data layer tests:**
+```powershell
+flutter test test/features/products/data/models/product_model_test.dart
+```
+
+---
+
+## 🏗️App Architecture Overview
+
+The app follows a layered, clean architecture:
+
+1. **Presentation Layer:** Handles UI and user interaction (not covered here).
+2. **Domain Layer:** Contains business logic, entities, and usecases.
+3. **Data Layer:** Handles data operations, mapping, and repository implementations.
+
+**Data flow:**
+ - UI requests data via usecases (domain layer).
+ - Usecases interact with repositories, which delegate to the data layer for actual data fetching/saving.
+ - Data layer fetches/parses data, maps it to domain entities, and returns it up the chain.
+
+This separation ensures maintainability, testability, and scalability.
