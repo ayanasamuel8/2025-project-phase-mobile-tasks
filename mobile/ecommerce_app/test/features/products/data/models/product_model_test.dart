@@ -3,16 +3,10 @@ import 'dart:convert';
 import 'package:ecommerce_app/features/products/data/models/product_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../../fixtures/fixture_reader.dart';
+
 void main() {
-  const productJson = '''
-  {
-    "id": 1,
-    "name": "Product Name",
-    "description": "This is a sample product description.",
-    "price": 29.99,
-    "imageUrl": "https://example.com/product-image.jpg"
-  }
-  ''';
+  String productJson = fixture('product');
 
   final productMap = json.decode(productJson) as Map<String, dynamic>;
 
