@@ -34,3 +34,23 @@ This will display any errors, warnings, or lint violations in your codebase.
 ### Custom Rules
 
 You can customize lint rules in `analysis_options.yaml` under the `linter` section.
+ 
+## Domain Layer
+
+The `lib/features/products/domain` directory implements the Domain Layer of the app, following clean architecture principles. This layer contains the core business logic and abstractions for the product feature.
+
+**Structure:**
+- `entities/`: Contains domain models such as `product.dart`.
+- `repositories/`: Defines repository interfaces, e.g., `product_repository.dart`.
+- `usecases/`: Contains use case classes for product operations, such as:
+    - `create_product.dart`
+    - `delete_product.dart`
+    - `update_product.dart`
+    - `view_all_products.dart`
+    - `view_product.dart`
+
+**Purpose:**
+- Keeps business logic independent from UI and data layers.
+- Makes the codebase more maintainable, testable, and scalable.
+
+Refer to the files in `lib/features/products/domain/` for details on each component.
