@@ -135,6 +135,39 @@ test('fromJson returns correct ProductModel', () {
 flutter test test/features/products/data/models/product_model_test.dart
 ```
 
+
+## 🗄️Data Layer Components & Integration
+
+Recent changes have added key data layer components to support robust data management and separation of concerns:
+
+### Core Utilities
+ - `core/error/exceptions.dart`: Defines custom exceptions (`ServerException`, `CacheException`) for error handling in data operations.
+ - `core/platform/network_info.dart`: Abstracts network connectivity checks, allowing repositories to decide between remote and local sources.
+
+### Data Sources
+ - `features/products/data/datasources/product_local_data_source.dart`: Interface for local product data operations (cache, local storage).
+ - `features/products/data/datasources/product_remote_data_source.dart`: Interface for remote product data operations (API calls).
+
+### Repository Implementation
+ - `features/products/data/repositories/product_repository_impl.dart`: Implements the domain repository interface, orchestrating data flow between remote/local sources and handling network logic. Methods are currently stubbed for future implementation.
+
+### Data Layer Test
+ - `test/features/products/data/repositories/product_repository_impl_test.dart`: Sets up unit tests for the repository implementation using `mocktail` to mock data sources and network info. Ensures correct integration and interaction between components.
+
+### Data Flow Example
+1. UI requests product data via a usecase.
+2. Usecase calls the repository (`ProductRepositoryImpl`).
+3. Repository checks network status using `NetworkInfo`.
+4. Depending on connectivity, it fetches data from either `ProductRemoteDataSource` or `ProductLocalDataSource`.
+5. Data is returned as domain entities, with errors handled via custom exceptions.
+
+### How to Test Repository Integration
+Run:
+```powershell
+flutter test test/features/products/data/repositories/product_repository_impl_test.dart
+```
+This will verify the repository's interaction with data sources and network info.
+
 ---
 
 ## 🏗️App Architecture Overview
