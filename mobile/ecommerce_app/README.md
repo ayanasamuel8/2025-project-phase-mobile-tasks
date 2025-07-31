@@ -204,6 +204,38 @@ Refer to the test file for detailed scenarios.
 
 ---
 
+## 💾 ProductLocalDataSource Implementation & Tests
+
+### Overview
+`ProductLocalDataSource` manages local product data storage and retrieval using `SharedPreferences`. It enables offline access and caching for product data.
+
+**Location:**
+- Implementation: `lib/features/products/data/datasources/product_local_data_source.dart`
+- Tests: `test/features/products/data/datasources/product_local_data_source_test.dart`
+
+**Key Methods:**
+- `getAllCachedProducts()`: Loads all cached products from local storage.
+- `getCachedProductById(id)`: Loads a single product by ID from cache.
+- `cacheAllProduct(products)`: Saves a list of products to local storage.
+
+**Error Handling:**
+- Throws `CacheException` if no cached data is found or if a product is not found in cache.
+
+### Test Coverage
+Unit tests verify:
+- Correct reading and writing of cached product data.
+- Exception handling when data is missing or product not found.
+- Data integrity for round-trip conversion (cache and retrieve).
+
+**How to run local data source tests:**
+```powershell
+flutter test test/features/products/data/datasources/product_local_data_source_test.dart
+```
+
+Refer to the test file for detailed scenarios and sample data usage.
+
+---
+
 ## 🌐 NetworkInfo Implementation
 
 The `NetworkInfo` class abstracts network connectivity checks for the app. It allows repositories and data sources to determine whether to use remote or local data sources based on the device's connection status.
