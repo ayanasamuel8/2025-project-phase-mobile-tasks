@@ -236,6 +236,41 @@ Refer to the test file for detailed scenarios and sample data usage.
 
 ---
 
+## 🌐 ProductRemoteDataSource Implementation & Tests
+
+### Overview
+`ProductRemoteDataSource` handles all remote product data operations, interacting with external APIs using the `http` package. It is responsible for fetching, creating, updating, and deleting product data from the server.
+
+**Location:**
+- Implementation: `lib/features/products/data/datasources/product_remote_data_source.dart`
+- Tests: `test/features/products/data/datasources/product_remote_data_source_test.dart`
+
+**Key Methods:**
+- `getAllProducts()`: Fetches all products from the remote API.
+- `getProductById(id)`: Fetches a single product by ID from the remote API.
+- `createProduct(product)`: Sends a new product to the remote API for creation.
+- `updateProduct(product)`: Updates an existing product on the remote API.
+- `deleteProduct(id)`: Deletes a product by ID from the remote API.
+
+**Error Handling:**
+- Throws `ServerException` for API errors, invalid responses, or network failures.
+
+### Test Coverage
+Unit tests verify:
+- Correct API endpoint usage and request formatting.
+- Handling of successful and error responses.
+- Exception handling for network/server errors.
+- Data integrity for serialization/deserialization.
+
+**How to run remote data source tests:**
+```powershell
+flutter test test/features/products/data/datasources/product_remote_data_source_test.dart
+```
+
+Refer to the test file for detailed scenarios and sample API responses.
+
+---
+
 ## 🌐 NetworkInfo Implementation
 
 The `NetworkInfo` class abstracts network connectivity checks for the app. It allows repositories and data sources to determine whether to use remote or local data sources based on the device's connection status.
