@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:ecommerce_app/core/error/exceptions.dart';
 import 'package:ecommerce_app/features/products/data/datasources/product_local_data_source.dart';
 import 'package:ecommerce_app/features/products/data/models/product_model.dart';
@@ -43,6 +42,32 @@ void main() {
       when(() => mockSharedPreferences.getString(any())).thenReturn(null);
 
       final call = dataSource.getAllCachedProducts();
+
+      expect(() => call, throwsA(const TypeMatcher<CacheException>()));
+    });
+  });
+  group('getCachedProductById', () {
+    final tProductId = 1;
+    final tProductModel = cachedProductsList.firstWhere(
+      (product) => product.id == tProductId,
+    );
+
+    test('should return ProductModel when the id matches', () async {
+      when(
+        () => mockSharedPreferences.getString(any()),
+      ).thenReturn(cachedProductsJson);
+
+      final result = await dataSource.getCachedProductById(tProductId);
+      verify(() => mockSharedPreferences.getString(cachedProducts));
+      expect(result, equals(tProductModel));
+    });
+
+    test('should throw CacheException when no product is found', () async {
+      when(
+        () => mockSharedPreferences.getString(any()),
+      ).thenReturn(cachedProductsJson);
+
+      final call = dataSource.getCachedProductById(999); // Non-existent ID
 
       expect(() => call, throwsA(const TypeMatcher<CacheException>()));
     });

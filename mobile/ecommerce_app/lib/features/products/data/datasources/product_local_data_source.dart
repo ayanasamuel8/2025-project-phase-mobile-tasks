@@ -33,13 +33,19 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
 
   @override
   Future<ProductModel> getCachedProductById(int id) async {
-    return ProductModel(
-      id: id,
-      name: 'Product $id',
-      price: 0,
-      description: 'Description for product $id',
-      imageUrl: 'http://example.com/product$id.jpg',
-    );
+    final jsonString = sharedPreferences.getString(cachedProducts);
+    if (jsonString == null) {
+      throw CacheException('no chached data');
+    }
+    final productList = (List<Map<String, dynamic>>.from(
+      json.decode(jsonString) as List,
+    )).map((json) => ProductModel.fromJson(json)).toList();
+    try {
+      final product = productList.firstWhere((product) => product.id == id);
+      return Future.value(product);
+    } catch (e) {
+      throw CacheException('no product found');
+    }
   }
 
   @override
