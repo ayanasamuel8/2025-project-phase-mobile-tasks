@@ -22,11 +22,11 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
   Future<List<ProductModel>> getAllCachedProducts() async {
     final jsonString = sharedPreferences.getString(cachedProducts);
     if (jsonString == null) {
-      throw CacheException('no chached data');
+      throw CacheException('no cached data');
     }
     return Future.value(
       (List<Map<String, dynamic>>.from(
-        json.decode(jsonString) as List,
+        json.decode(jsonString)['data'] as List,
       )).map((json) => ProductModel.fromJson(json)).toList(),
     );
   }
@@ -35,10 +35,10 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
   Future<ProductModel> getCachedProductById(String id) async {
     final jsonString = sharedPreferences.getString(cachedProducts);
     if (jsonString == null) {
-      throw CacheException('no chached data');
+      throw CacheException('no cached data');
     }
     final productList = (List<Map<String, dynamic>>.from(
-      json.decode(jsonString) as List,
+      json.decode(jsonString)['data'] as List,
     )).map((json) => ProductModel.fromJson(json)).toList();
     try {
       final product = productList.firstWhere((product) => product.id == id);

@@ -17,13 +17,13 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   final http.Client client;
 
   ProductRemoteDataSourceImpl({required this.client});
+  static const _apiUrl =
+      'https://g5-flutter-learning-path-be.onrender.com/api/v3';
 
   @override
   Future<List<ProductModel>> getAllProducts() async {
     final response = await client.get(
-      Uri.parse(
-        'https://g5-flutter-learning-path-be.onrender.com/api/v3/products',
-      ),
+      Uri.parse('$_apiUrl/products'),
       headers: {'Content-Type': 'application/json'},
     );
     if (response.statusCode == 200) {
@@ -41,9 +41,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<ProductModel> getProductById(String id) async {
     final response = await client.get(
-      Uri.parse(
-        'https://g5-flutter-learning-path-be.onrender.com/api/v3/products/$id',
-      ),
+      Uri.parse('$_apiUrl/products/$id'),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -60,9 +58,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     final productJson = product.toJson();
     return await client
         .post(
-          Uri.parse(
-            'https://g5-flutter-learning-path-be.onrender.com/api/v3/products',
-          ),
+          Uri.parse('$_apiUrl/products'),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(productJson),
         )
@@ -78,9 +74,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   Future<void> deleteProduct(String id) {
     return client
         .delete(
-          Uri.parse(
-            'https://g5-flutter-learning-path-be.onrender.com/api/v3/products/$id',
-          ),
+          Uri.parse('$_apiUrl/products/$id'),
           headers: {'Content-Type': 'application/json'},
         )
         .then((response) {
@@ -95,9 +89,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     final productJson = product.toJson();
     return client
         .put(
-          Uri.parse(
-            'https://g5-flutter-learning-path-be.onrender.com/api/v3/products/${product.id}',
-          ),
+          Uri.parse('$_apiUrl/products/${product.id}'),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(productJson),
         )

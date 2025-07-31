@@ -8,17 +8,18 @@ import '../../../../fixtures/fixture_reader.dart';
 void main() {
   String productJson = fixture('product');
 
-  final productMap = json.decode(productJson) as Map<String, dynamic>;
+  final productMap = json.decode(productJson)['data'] as Map<String, dynamic>;
+  productMap.remove('seller'); // Remove seller as it's not in the model
 
   group('ProductModel', () {
     test('fromJson returns correct ProductModel', () {
       final model = ProductModel.fromJson(productMap);
 
-      expect(model.id, '1');
-      expect(model.name, 'Product Name');
-      expect(model.description, 'This is a sample product description.');
-      expect(model.price, 29.99);
-      expect(model.imageUrl, 'https://example.com/product-image.jpg');
+      expect(model.id, productMap['id']);
+      expect(model.name, productMap['name']);
+      expect(model.description, productMap['description']);
+      expect(model.price, productMap['price']);
+      expect(model.imageUrl, productMap['imageUrl']);
     });
 
     test('toJson returns correct map', () {
@@ -33,11 +34,7 @@ void main() {
       final jsonMap = model.toJson();
       final modelFromJson = ProductModel.fromJson(jsonMap);
 
-      expect(modelFromJson.id, model.id);
-      expect(modelFromJson.name, model.name);
-      expect(modelFromJson.description, model.description);
-      expect(modelFromJson.price, model.price);
-      expect(modelFromJson.imageUrl, model.imageUrl);
+      expect(modelFromJson, model);
     });
   });
 }
