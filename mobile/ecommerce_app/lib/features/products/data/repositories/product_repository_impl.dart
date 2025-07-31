@@ -76,7 +76,6 @@ class ProductRepositoryImpl implements ProductRepository {
       if (isConnected) {
         try {
           final product = await remoteDataSource.getProductById(id);
-          await localDataSource.cacheProduct(product);
           return Right(product);
         } catch (e) {
           return const Left(ServerFailure('Failed to fetch product'));
@@ -100,7 +99,6 @@ class ProductRepositoryImpl implements ProductRepository {
           await remoteDataSource.updateProduct(
             ProductModel.fromEntity(product),
           );
-          await localDataSource.cacheProduct(ProductModel.fromEntity(product));
           return const Right(null);
         } catch (e) {
           return const Left(ServerFailure('Failed to update product'));

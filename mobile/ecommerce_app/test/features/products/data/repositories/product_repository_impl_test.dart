@@ -92,7 +92,7 @@ void main() {
           ).thenAnswer((_) async => tProducts);
           when(
             () => mockLocalDataSource.cacheAllProduct(tProducts),
-          ).thenAnswer((_) async => {});
+          ).thenAnswer((_) async => true);
           final result = await repository.getAllProducts();
           verify(() => mockRemoteDataSource.getAllProducts());
           expect(result, equals(Right(tProducts)));
@@ -276,12 +276,9 @@ void main() {
           when(
             () => mockRemoteDataSource.getProductById(any()),
           ).thenAnswer((_) async => tProductModel);
-          when(
-            () => mockLocalDataSource.cacheProduct(any()),
-          ).thenAnswer((_) async => Future.value());
+
           final result = await repository.getProductById(tId);
           verify(() => mockRemoteDataSource.getProductById(tId));
-          verify(() => mockLocalDataSource.cacheProduct(tProductModel));
           expect(result, equals(Right(tProductModel)));
         },
       );
@@ -344,12 +341,9 @@ void main() {
           when(
             () => mockRemoteDataSource.updateProduct(any()),
           ).thenAnswer((_) async => Future.value());
-          when(
-            () => mockLocalDataSource.cacheProduct(any()),
-          ).thenAnswer((_) async => Future.value());
+
           final result = await repository.updateProduct(tProductModel);
           verify(() => mockRemoteDataSource.updateProduct(any()));
-          verify(() => mockLocalDataSource.cacheProduct(any()));
           expect(result, equals(const Right(null)));
         },
       );
