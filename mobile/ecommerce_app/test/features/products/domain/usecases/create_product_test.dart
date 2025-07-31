@@ -16,7 +16,7 @@ void main() {
 
   // A fallback value for mocktail in case [any<Product>()] is used
   final fallbackProduct = Product(
-    id: 0,
+    id: '0',
     name: '',
     price: 0.0,
     description: '',
@@ -38,7 +38,7 @@ void main() {
       () async {
         // Arrange
         final product = Product(
-          id: 1,
+          id: '1',
           name: 'Test Product',
           price: 10.0,
           description: 'A test product',
@@ -64,14 +64,14 @@ void main() {
       () async {
         // Arrange
         final product = Product(
-          id: 2,
+          id: '2',
           name: 'Invalid Product',
           price: 20.0,
           description: 'An error product',
           imageUrl: 'http://example.com/error.jpg',
         );
 
-        final failure = ServerFailure('Failed to create product');
+        final failure = const ServerFailure('Failed to create product');
 
         // Stub the repository to return failure
         when(

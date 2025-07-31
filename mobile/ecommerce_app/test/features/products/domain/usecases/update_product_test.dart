@@ -14,7 +14,7 @@ void main() {
   late MockProductRepository mockRepository;
 
   Product testProduct = Product(
-    id: 1,
+    id: '1',
     name: 'Test Product',
     price: 10.0,
     description: 'Test product description',
@@ -27,7 +27,7 @@ void main() {
 
     // Register a fallback Product value for mocktail.
     registerFallbackValue(
-      Product(id: 0, name: '', price: 0.0, description: '', imageUrl: ''),
+      Product(id: '0', name: '', price: 0.0, description: '', imageUrl: ''),
     );
   });
 
@@ -51,7 +51,7 @@ void main() {
 
     test('should return Failure when repository fails', () async {
       // Arrange
-      final failure = ServerFailure('Update failed');
+      final failure = const ServerFailure('Update failed');
       when(
         () => mockRepository.updateProduct(testProduct),
       ).thenAnswer((_) async => Left(failure));

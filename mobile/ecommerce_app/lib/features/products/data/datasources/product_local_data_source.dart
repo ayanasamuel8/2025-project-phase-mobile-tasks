@@ -7,7 +7,7 @@ import '../models/product_model.dart';
 
 abstract class ProductLocalDataSource {
   Future<List<ProductModel>> getAllCachedProducts();
-  Future<ProductModel> getCachedProductById(int id);
+  Future<ProductModel> getCachedProductById(String id);
   Future<bool> cacheAllProduct(List<ProductModel> products);
 }
 
@@ -32,7 +32,7 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
   }
 
   @override
-  Future<ProductModel> getCachedProductById(int id) async {
+  Future<ProductModel> getCachedProductById(String id) async {
     final jsonString = sharedPreferences.getString(cachedProducts);
     if (jsonString == null) {
       throw CacheException('no chached data');

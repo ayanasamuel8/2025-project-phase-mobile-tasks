@@ -34,7 +34,7 @@ void main() {
 
   // Helper data
   final tProductModel = ProductModel(
-    id: 1,
+    id: '1',
     name: 'Test Product',
     price: 10.0,
     description: 'A test product',
@@ -42,13 +42,13 @@ void main() {
   );
   final tProducts = <ProductModel>[tProductModel];
   final tProductEntity = Product(
-    id: 1,
+    id: '1',
     name: 'Test Product',
     price: 10.0,
     description: 'A test product',
     imageUrl: 'http://example.com/test.jpg',
   );
-  const tId = 1;
+  const tId = '1';
 
   // Helper failures
   const serverFailure = ServerFailure('Failed to fetch products');
@@ -56,7 +56,7 @@ void main() {
 
   // Helper fallback value
   final fallbackProductModel = ProductModel(
-    id: 0,
+    id: '0',
     name: '',
     price: 0.0,
     description: '',

@@ -37,7 +37,7 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteProduct(int id) async {
+  Future<Either<Failure, void>> deleteProduct(String id) async {
     if (await networkInfo.isConnected) {
       try {
         await remoteDataSource.deleteProduct(id);
@@ -71,7 +71,7 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Either<Failure, ProductModel>> getProductById(int id) {
+  Future<Either<Failure, ProductModel>> getProductById(String id) {
     return networkInfo.isConnected.then((isConnected) async {
       if (isConnected) {
         try {

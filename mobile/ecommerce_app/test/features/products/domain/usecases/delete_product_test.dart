@@ -15,7 +15,7 @@ void main() {
 
   // Common product used across tests
   Product testProduct = Product(
-    id: 1,
+    id: '1',
     name: 'Test Product',
     price: 10.0,
     description: 'A test product',
@@ -50,7 +50,7 @@ void main() {
 
     test('should return Failure when repository fails', () async {
       // Arrange
-      final failure = ServerFailure('Deletion failed');
+      final failure = const ServerFailure('Deletion failed');
       when(
         () => mockRepository.deleteProduct(testProduct.id),
       ).thenAnswer((_) async => Left(failure));

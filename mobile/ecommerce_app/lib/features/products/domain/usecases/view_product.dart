@@ -9,7 +9,7 @@ class ViewProductUsecase {
 
   ViewProductUsecase(this.repository);
 
-  Future<Either<Failure, Product>> call(int id) async {
+  Future<Either<Failure, Product>> call(String id) async {
     return await repository.getProductById(id);
   }
 }

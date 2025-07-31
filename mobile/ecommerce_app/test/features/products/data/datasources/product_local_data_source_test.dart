@@ -47,7 +47,7 @@ void main() {
     });
   });
   group('getCachedProductById', () {
-    final tProductId = 1;
+    final tProductId = '1';
     final tProductModel = cachedProductsList.firstWhere(
       (product) => product.id == tProductId,
     );
@@ -67,7 +67,7 @@ void main() {
         () => mockSharedPreferences.getString(any()),
       ).thenReturn(cachedProductsJson);
 
-      final call = dataSource.getCachedProductById(999); // Non-existent ID
+      final call = dataSource.getCachedProductById('999'); // Non-existent ID
 
       expect(() => call, throwsA(const TypeMatcher<CacheException>()));
     });

@@ -8,7 +8,7 @@ class DeleteProductUsecase {
 
   DeleteProductUsecase(this.repository);
 
-  Future<Either<Failure, void>> call(int id) async {
+  Future<Either<Failure, void>> call(String id) async {
     return await repository.deleteProduct(id);
   }
 }

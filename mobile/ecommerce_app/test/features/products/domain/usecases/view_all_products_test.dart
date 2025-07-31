@@ -21,7 +21,7 @@ void main() {
 
     // Fallback if mocktail needs it
     registerFallbackValue(
-      Product(id: 0, name: '', price: 0.0, description: '', imageUrl: ''),
+      Product(id: '0', name: '', price: 0.0, description: '', imageUrl: ''),
     );
   });
 
@@ -45,7 +45,7 @@ void main() {
 
     test('should return Failure when repository throws', () async {
       // Arrange
-      final failure = ServerFailure('Failed to fetch products');
+      final failure = const ServerFailure('Failed to fetch products');
       when(
         () => mockRepository.getAllProducts(),
       ).thenAnswer((_) async => Left(failure));

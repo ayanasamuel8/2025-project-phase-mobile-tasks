@@ -14,7 +14,7 @@ void main() {
     test('fromJson returns correct ProductModel', () {
       final model = ProductModel.fromJson(productMap);
 
-      expect(model.id, 1);
+      expect(model.id, '1');
       expect(model.name, 'Product Name');
       expect(model.description, 'This is a sample product description.');
       expect(model.price, 29.99);
