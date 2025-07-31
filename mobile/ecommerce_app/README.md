@@ -202,3 +202,19 @@ flutter test test/features/products/data/repositories/product_repository_impl_te
 
 Refer to the test file for detailed scenarios.
 
+---
+
+## 🌐 NetworkInfo Implementation
+
+The `NetworkInfo` class abstracts network connectivity checks for the app. It allows repositories and data sources to determine whether to use remote or local data sources based on the device's connection status.
+
+**Location:**
+- `lib/core/platform/network_info.dart`
+
+**Usage:**
+- Injected into repositories (e.g., `ProductRepositoryImpl`) to check connectivity before performing remote operations.
+- Enables robust offline support and error handling.
+
+**Testing:**
+- In unit tests, `NetworkInfo` is mocked to simulate online/offline scenarios and verify repository behavior.
+
