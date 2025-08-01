@@ -41,8 +41,7 @@ void main() {
     imageUrl: 'http://example.com/test.jpg',
   );
   final tProducts = <ProductModel>[tProductModel];
-  final tProductEntity = Product(
-    id: '1',
+  final tProductEntity = const ProductParams(
     name: 'Test Product',
     price: 10.0,
     description: 'A test product',
@@ -55,6 +54,12 @@ void main() {
   const cacheFailure = CacheFailure('No cached data');
 
   // Helper fallback value
+  final fallbackProductParamsModel = ProductParamsModel(
+    name: '',
+    price: 0.0,
+    description: '',
+    imageUrl: '',
+  );
   final fallbackProductModel = ProductModel(
     id: '0',
     name: '',
@@ -170,15 +175,17 @@ void main() {
     group('device is online', () {
       setUp(() {
         setOnline();
-        registerFallbackValue(fallbackProductModel);
+        registerFallbackValue(fallbackProductParamsModel);
       });
 
       test('should call remoteDataSource to create product', () async {
         when(
-          () => mockRemoteDataSource.createProduct(any<ProductModel>()),
+          () => mockRemoteDataSource.createProduct(any<ProductParamsModel>()),
         ).thenAnswer((_) async => const Right(null));
         final result = await repository.createProduct(tProductEntity);
-        verify(() => mockRemoteDataSource.createProduct(any<ProductModel>()));
+        verify(
+          () => mockRemoteDataSource.createProduct(any<ProductParamsModel>()),
+        );
         expect(result, equals(const Right(null)));
       });
 

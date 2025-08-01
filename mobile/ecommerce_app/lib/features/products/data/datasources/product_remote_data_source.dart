@@ -8,7 +8,7 @@ import '../models/product_model.dart';
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProducts();
   Future<ProductModel> getProductById(String id);
-  Future<void> createProduct(ProductModel product);
+  Future<void> createProduct(ProductParamsModel product);
   Future<void> updateProduct(ProductModel product);
   Future<void> deleteProduct(String id);
 }
@@ -54,7 +54,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<String> createProduct(ProductModel product) async {
+  Future<String> createProduct(ProductParamsModel product) async {
     final productJson = product.toJson();
     return await client
         .post(

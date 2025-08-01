@@ -135,7 +135,7 @@ void main() {
       ).thenAnswer((_) async => http.Response(productJson, 201));
       //act
       final result = await dataSource.createProduct(
-        ProductModel.fromJson(
+        ProductParamsModel.fromJson(
           jsonDecode(productJson)['data'] as Map<String, dynamic>,
         ),
       );
@@ -147,7 +147,7 @@ void main() {
           ),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(
-            ProductModel.fromJson(
+            ProductParamsModel.fromJson(
               jsonDecode(productJson)['data'] as Map<String, dynamic>,
             ),
           ),
@@ -169,7 +169,7 @@ void main() {
       //assert
       expect(
         () => call(
-          ProductModel.fromJson(
+          ProductParamsModel.fromJson(
             jsonDecode(productJson)['data'] as Map<String, dynamic>,
           ),
         ),

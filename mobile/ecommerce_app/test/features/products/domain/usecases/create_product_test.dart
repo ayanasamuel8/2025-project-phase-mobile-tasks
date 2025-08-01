@@ -37,8 +37,7 @@ void main() {
       'should call createProduct on the repository and return Right(unit) when successful',
       () async {
         // Arrange
-        final product = Product(
-          id: '1',
+        final product = ProductParams(
           name: 'Test Product',
           price: 10.0,
           description: 'A test product',
@@ -63,8 +62,7 @@ void main() {
       'should return Left(ServerFailure) when repository fails to create product',
       () async {
         // Arrange
-        final product = Product(
-          id: '2',
+        final product = ProductParams(
           name: 'Invalid Product',
           price: 20.0,
           description: 'An error product',

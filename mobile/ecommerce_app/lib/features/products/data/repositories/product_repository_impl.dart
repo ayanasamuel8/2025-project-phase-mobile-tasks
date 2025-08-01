@@ -19,12 +19,12 @@ class ProductRepositoryImpl implements ProductRepository {
     required this.networkInfo,
   });
   @override
-  Future<Either<Failure, void>> createProduct(Product product) {
+  Future<Either<Failure, void>> createProduct(ProductParams product) {
     return networkInfo.isConnected.then((isConnected) async {
       if (isConnected) {
         try {
           await remoteDataSource.createProduct(
-            ProductModel.fromEntity(product),
+            ProductParamsModel.fromEntity(product),
           );
           return const Right(null);
         } catch (e) {
