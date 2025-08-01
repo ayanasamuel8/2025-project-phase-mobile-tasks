@@ -285,3 +285,53 @@ The `NetworkInfo` class abstracts network connectivity checks for the app. It al
 **Testing:**
 - In unit tests, `NetworkInfo` is mocked to simulate online/offline scenarios and verify repository behavior.
 
+---
+
+## 🎨 Presentation Layer: BLoC Implementation & Tests
+
+The presentation layer manages UI state and user interaction. This app uses the [BLoC (Business Logic Component)](https://bloclibrary.dev/#/) pattern for scalable, testable state management.
+
+### BLoC Structure
+- Located in: `lib/features/products/presentation/bloc/`
+- Main BLoC: `products_bloc.dart`
+- Events: e.g., `LoadAllProductsEvent`, `GetSingleProductEvent`, `CreateProductEvent`, `UpdateProductEvent`, `DeleteProductEvent`
+- States: e.g., `InitialState`, `LoadingState`, `LoadedAllProductsState`, `LoadedSingleProductState`, `CreatedProductState`, `UpdatedProductState`, `DeletedProductState`, `ErrorState`
+
+### BLoC Implementation Highlights
+- Handles all product-related UI events and state transitions
+- Interacts with the domain layer via repository/usecases
+- Emits states for loading, success, and error scenarios
+- Designed for easy extension as UI features grow
+
+### BLoC Tests
+- Location: `test/features/products/presentation/bloc/prodcuts_bloc_test.dart`
+- Uses `bloc_test` and `mocktail` for robust unit testing
+- Verifies correct state transitions for all events
+- Mocks repository responses for success and failure cases
+
+**Run BLoC tests:**
+```powershell
+flutter test test/features/products/presentation/bloc/prodcuts_bloc_test.dart
+```
+
+Refer to the test file for detailed scenarios and expected state flows.
+
+---
+
+## 🧩 Next Steps: Dependency Injection & UI Building
+
+### Dependency Injection
+- Will use [get_it](https://pub.dev/packages/get_it) or [injectable](https://pub.dev/packages/injectable) for managing dependencies
+- Enables clean separation of concerns and easier testing
+- Example: Register repositories, data sources, and BLoCs for injection
+
+### UI Building
+- UI widgets will be built in `lib/features/products/presentation/widgets/` and `screens/`
+- Will connect widgets to BLoC using `BlocProvider` and `BlocBuilder`
+- UI will react to BLoC states for dynamic, responsive updates
+- Example: Product list screen, product detail screen, forms for create/update
+
+---
+
+This layered approach ensures scalable, maintainable, and testable presentation logic. As the app grows, the presentation layer will expand to include advanced dependency injection and rich UI components.
+
