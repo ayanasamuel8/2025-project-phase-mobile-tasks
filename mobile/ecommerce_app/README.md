@@ -318,18 +318,26 @@ Refer to the test file for detailed scenarios and expected state flows.
 
 ---
 
-## 🧩 Next Steps: Dependency Injection & UI Building
+## ⚙️ Dependency Injection: injection_container.dart
 
-### Dependency Injection
-- Will use [get_it](https://pub.dev/packages/get_it) or [injectable](https://pub.dev/packages/injectable) for managing dependencies
-- Enables clean separation of concerns and easier testing
-- Example: Register repositories, data sources, and BLoCs for injection
+The app uses a dedicated dependency injection setup to manage and provide instances of repositories, data sources, and BLoCs throughout the app. This is implemented in `injection_container.dart` using the [get_it](https://pub.dev/packages/get_it) package.
 
-### UI Building
-- UI widgets will be built in `lib/features/products/presentation/widgets/` and `screens/`
-- Will connect widgets to BLoC using `BlocProvider` and `BlocBuilder`
-- UI will react to BLoC states for dynamic, responsive updates
-- Example: Product list screen, product detail screen, forms for create/update
+**Location:**
+- `lib/injection_container.dart`
+
+**Purpose:**
+- Centralizes registration of all dependencies
+- Enables easy swapping of implementations for testing and scaling
+- Supports constructor injection for BLoCs, repositories, and data sources
+
+**How to use:**
+- Call `init()` in your app's main entry point before running the app
+- Retrieve dependencies anywhere using `sl<T>()`
+
+**Testing:**
+- Easily override dependencies in tests for mocking and isolation
+
+Refer to `lib/injection_container.dart` for the full setup and customization options.
 
 ---
 
