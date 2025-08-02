@@ -3,15 +3,29 @@ import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
+import '../../domain/usecases/create_product.dart';
+import '../../domain/usecases/delete_product.dart';
+import '../../domain/usecases/update_product.dart';
+import '../../domain/usecases/view_all_products.dart';
+import '../../domain/usecases/view_product.dart';
 
 part 'products_event.dart';
 part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final ProductRepository productRepository;
+  final ViewAllProductsUsecase getAllProducts;
+  final ViewProductUsecase getProductById;
+  final CreateProductUsecase createProduct;
+  final UpdateProductUsecase updateProduct;
+  final DeleteProductUsecase deleteProduct;
 
-  ProductsBloc({required this.productRepository}) : super(InitialState()) {
-    // Register event handlers for each event
+  ProductsBloc({
+    required this.getAllProducts,
+    required this.getProductById,
+    required this.createProduct,
+    required this.updateProduct,
+    required this.deleteProduct,
+  }) : super(InitialState()) {
     on<LoadAllProductsEvent>(_onLoadAllProducts);
     on<GetSingleProductEvent>(_onGetSingleProduct);
     on<UpdateProductEvent>(_onUpdateProduct);
@@ -26,7 +40,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     emit(LoadingState());
-    final result = await productRepository.getAllProducts();
+    final result = await getAllProducts();
     result.fold(
       (failure) => emit(ErrorState(failure.toString())),
       (products) => emit(LoadedAllProductsState(products)),
@@ -37,8 +51,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     GetSingleProductEvent event,
     Emitter<ProductsState> emit,
   ) async {
-    // You might want a loading state here too
-    final result = await productRepository.getProductById(event.productId);
+    final result = await getProductById(event.productId);
     result.fold(
       (failure) => emit(ErrorState(failure.toString())),
       (product) => emit(LoadedSingleProductState(product)),
@@ -49,7 +62,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     UpdateProductEvent event,
     Emitter<ProductsState> emit,
   ) async {
-    final result = await productRepository.updateProduct(
+    final result = await updateProduct(
       Product(
         id: event.productId,
         description: event.description,
@@ -68,8 +81,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     CreateProductEvent event,
     Emitter<ProductsState> emit,
   ) async {
-    // Assuming you have a ProductParams or similar as discussed previously
-    final result = await productRepository.createProduct(
+    final result = await createProduct(
       ProductParams(
         description: event.description,
         imageUrl: event.imageUrl,
@@ -87,7 +99,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     DeleteProductEvent event,
     Emitter<ProductsState> emit,
   ) async {
-    final result = await productRepository.deleteProduct(event.productId);
+    final result = await deleteProduct(event.productId);
     result.fold(
       (failure) => emit(ErrorState(failure.toString())),
       (_) => emit(const DeletedProductState()),

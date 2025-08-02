@@ -2,21 +2,50 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:ecommerce_app/core/error/failure.dart';
 import 'package:ecommerce_app/features/products/domain/entities/product.dart';
-import 'package:ecommerce_app/features/products/domain/repositories/product_repository.dart';
+import 'package:ecommerce_app/features/products/domain/usecases/create_product.dart';
+import 'package:ecommerce_app/features/products/domain/usecases/delete_product.dart';
+import 'package:ecommerce_app/features/products/domain/usecases/update_product.dart';
+import 'package:ecommerce_app/features/products/domain/usecases/view_all_products.dart';
+import 'package:ecommerce_app/features/products/domain/usecases/view_product.dart';
 import 'package:ecommerce_app/features/products/presentation/bloc/products_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-// Mock Repository using mocktail
-class MockProductRepository extends Mock implements ProductRepository {}
+// Mock Usecases using mocktail
+class MockViewAllProductsUsecase extends Mock
+    implements ViewAllProductsUsecase {}
+
+class MockViewProductUsecase extends Mock implements ViewProductUsecase {}
+
+class MockCreateProductUsecase extends Mock implements CreateProductUsecase {}
+
+class MockUpdateProductUsecase extends Mock implements UpdateProductUsecase {}
+
+class MockDeleteProductUsecase extends Mock implements DeleteProductUsecase {}
 
 void main() {
-  late MockProductRepository mockProductRepository;
+  late MockViewAllProductsUsecase mockViewAllProductsUsecase;
+  late MockViewProductUsecase mockViewProductUsecase;
+  late MockCreateProductUsecase mockCreateProductUsecase;
+  late MockUpdateProductUsecase mockUpdateProductUsecase;
+  late MockDeleteProductUsecase mockDeleteProductUsecase;
   late ProductsBloc productsBloc;
 
   setUp(() {
-    mockProductRepository = MockProductRepository();
-    productsBloc = ProductsBloc(productRepository: mockProductRepository);
+    mockViewAllProductsUsecase = MockViewAllProductsUsecase();
+    mockViewProductUsecase = MockViewProductUsecase();
+    mockCreateProductUsecase = MockCreateProductUsecase();
+    mockUpdateProductUsecase = MockUpdateProductUsecase();
+    mockDeleteProductUsecase = MockDeleteProductUsecase();
+
+    productsBloc = ProductsBloc(
+      getAllProducts: mockViewAllProductsUsecase,
+      getProductById: mockViewProductUsecase,
+      createProduct: mockCreateProductUsecase,
+      updateProduct: mockUpdateProductUsecase,
+      deleteProduct: mockDeleteProductUsecase,
+    );
+
     // Register fallback values for any() matcher
     registerFallbackValue(
       const Product(id: '', name: '', description: '', price: 0, imageUrl: ''),
@@ -50,15 +79,15 @@ void main() {
       'should emit [LoadingState, LoadedAllProductsState] when data is gotten successfully',
       build: () {
         when(
-          () => mockProductRepository.getAllProducts(),
+          () => mockViewAllProductsUsecase(),
         ).thenAnswer((_) async => Right(tProductList));
         return productsBloc;
       },
       act: (bloc) => bloc.add(const LoadAllProductsEvent()),
       expect: () => [LoadingState(), LoadedAllProductsState(tProductList)],
       verify: (_) {
-        verify(() => mockProductRepository.getAllProducts());
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockViewAllProductsUsecase());
+        verifyNoMoreInteractions(mockViewAllProductsUsecase);
       },
     );
 
@@ -66,15 +95,15 @@ void main() {
       'should emit [LoadingState, ErrorState] when getting data fails',
       build: () {
         when(
-          () => mockProductRepository.getAllProducts(),
+          () => mockViewAllProductsUsecase(),
         ).thenAnswer((_) async => const Left(tServerFailure));
         return productsBloc;
       },
       act: (bloc) => bloc.add(const LoadAllProductsEvent()),
       expect: () => [LoadingState(), ErrorState(tServerFailure.toString())],
       verify: (_) {
-        verify(() => mockProductRepository.getAllProducts());
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockViewAllProductsUsecase());
+        verifyNoMoreInteractions(mockViewAllProductsUsecase);
       },
     );
   });
@@ -85,15 +114,15 @@ void main() {
       'should emit [LoadedSingleProductState] when data is gotten successfully',
       build: () {
         when(
-          () => mockProductRepository.getProductById(any()),
+          () => mockViewProductUsecase(any()),
         ).thenAnswer((_) async => const Right(tProduct));
         return productsBloc;
       },
       act: (bloc) => bloc.add(const GetSingleProductEvent(tProductId)),
       expect: () => [const LoadedSingleProductState(tProduct)],
       verify: (_) {
-        verify(() => mockProductRepository.getProductById(tProductId));
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockViewProductUsecase(tProductId));
+        verifyNoMoreInteractions(mockViewProductUsecase);
       },
     );
 
@@ -101,15 +130,15 @@ void main() {
       'should emit [ErrorState] when getting data fails',
       build: () {
         when(
-          () => mockProductRepository.getProductById(any()),
+          () => mockViewProductUsecase(any()),
         ).thenAnswer((_) async => const Left(tServerFailure));
         return productsBloc;
       },
       act: (bloc) => bloc.add(const GetSingleProductEvent(tProductId)),
       expect: () => [ErrorState(tServerFailure.toString())],
       verify: (_) {
-        verify(() => mockProductRepository.getProductById(tProductId));
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockViewProductUsecase(tProductId));
+        verifyNoMoreInteractions(mockViewProductUsecase);
       },
     );
   });
@@ -126,7 +155,7 @@ void main() {
       'should emit [CreatedProductState] when product is created successfully',
       build: () {
         when(
-          () => mockProductRepository.createProduct(any()),
+          () => mockCreateProductUsecase(any()),
         ).thenAnswer((_) async => const Right(null));
         return productsBloc;
       },
@@ -140,8 +169,8 @@ void main() {
       ),
       expect: () => [const CreatedProductState()],
       verify: (_) {
-        verify(() => mockProductRepository.createProduct(tProductParams));
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockCreateProductUsecase(tProductParams));
+        verifyNoMoreInteractions(mockCreateProductUsecase);
       },
     );
 
@@ -149,7 +178,7 @@ void main() {
       'should emit [ErrorState] when product creation fails',
       build: () {
         when(
-          () => mockProductRepository.createProduct(any()),
+          () => mockCreateProductUsecase(any()),
         ).thenAnswer((_) async => const Left(tServerFailure));
         return productsBloc;
       },
@@ -163,8 +192,8 @@ void main() {
       ),
       expect: () => [ErrorState(tServerFailure.toString())],
       verify: (_) {
-        verify(() => mockProductRepository.createProduct(tProductParams));
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockCreateProductUsecase(tProductParams));
+        verifyNoMoreInteractions(mockCreateProductUsecase);
       },
     );
   });
@@ -190,15 +219,15 @@ void main() {
       'should emit [UpdatedProductState] when product is updated successfully',
       build: () {
         when(
-          () => mockProductRepository.updateProduct(any()),
+          () => mockUpdateProductUsecase(any()),
         ).thenAnswer((_) async => const Right(null));
         return productsBloc;
       },
       act: (bloc) => bloc.add(tUpdateEvent),
       expect: () => [const UpdatedProductState()],
       verify: (_) {
-        verify(() => mockProductRepository.updateProduct(tUpdatedProduct));
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockUpdateProductUsecase(tUpdatedProduct));
+        verifyNoMoreInteractions(mockUpdateProductUsecase);
       },
     );
 
@@ -206,15 +235,15 @@ void main() {
       'should emit [ErrorState] when product update fails',
       build: () {
         when(
-          () => mockProductRepository.updateProduct(any()),
+          () => mockUpdateProductUsecase(any()),
         ).thenAnswer((_) async => const Left(tServerFailure));
         return productsBloc;
       },
       act: (bloc) => bloc.add(tUpdateEvent),
       expect: () => [ErrorState(tServerFailure.toString())],
       verify: (_) {
-        verify(() => mockProductRepository.updateProduct(tUpdatedProduct));
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockUpdateProductUsecase(tUpdatedProduct));
+        verifyNoMoreInteractions(mockUpdateProductUsecase);
       },
     );
   });
@@ -225,15 +254,15 @@ void main() {
       'should emit [DeletedProductState] when product is deleted successfully',
       build: () {
         when(
-          () => mockProductRepository.deleteProduct(any()),
+          () => mockDeleteProductUsecase(any()),
         ).thenAnswer((_) async => const Right(null));
         return productsBloc;
       },
       act: (bloc) => bloc.add(const DeleteProductEvent(tProductId)),
       expect: () => [const DeletedProductState()],
       verify: (_) {
-        verify(() => mockProductRepository.deleteProduct(tProductId));
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockDeleteProductUsecase(tProductId));
+        verifyNoMoreInteractions(mockDeleteProductUsecase);
       },
     );
 
@@ -241,15 +270,15 @@ void main() {
       'should emit [ErrorState] when product deletion fails',
       build: () {
         when(
-          () => mockProductRepository.deleteProduct(any()),
+          () => mockDeleteProductUsecase(any()),
         ).thenAnswer((_) async => const Left(tServerFailure));
         return productsBloc;
       },
       act: (bloc) => bloc.add(const DeleteProductEvent(tProductId)),
       expect: () => [ErrorState(tServerFailure.toString())],
       verify: (_) {
-        verify(() => mockProductRepository.deleteProduct(tProductId));
-        verifyNoMoreInteractions(mockProductRepository);
+        verify(() => mockDeleteProductUsecase(tProductId));
+        verifyNoMoreInteractions(mockDeleteProductUsecase);
       },
     );
   });
