@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/product.dart';
-import '../../domain/repositories/product_repository.dart';
 import '../../domain/usecases/create_product.dart';
 import '../../domain/usecases/delete_product.dart';
 import '../../domain/usecases/update_product.dart';
