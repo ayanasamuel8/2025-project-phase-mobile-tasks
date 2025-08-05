@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'core/constants/colors.dart';
+import 'features/products/presentation/pages/add_page.dart';
 import 'features/products/presentation/pages/home_page.dart';
+import 'features/products/presentation/pages/update_page.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -21,7 +23,23 @@ class MyApp extends StatelessWidget {
         primarySwatch: CustomColor.primarySwatch,
         useMaterial3: false,
       ),
-      home: const HomePage(),
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => const HomePage(),
+        '/add': (context) => const AddPage(),
+        '/update': (context) {
+          final args =
+              ModalRoute.of(context)!.settings.arguments
+                  as Map<String, dynamic>;
+          return UpdatePage(
+            productId: args['productId'],
+            name: args['name'],
+            price: args['price'],
+            description: args['description'],
+            imageUrl: args['imageUrl'],
+          );
+        },
+      },
     );
   }
 }

@@ -106,7 +106,13 @@ Widget productDetailsWidget(Product product, BuildContext context) {
                 Navigator.pushNamed(
                   context,
                   '/update',
-                  arguments: {'product': product},
+                  arguments: {
+                    'productId': product.id,
+                    'name': product.name,
+                    'price': product.price,
+                    'description': product.description,
+                    'imageUrl': product.imageUrl,
+                  },
                 );
               },
               style: ElevatedButton.styleFrom(
