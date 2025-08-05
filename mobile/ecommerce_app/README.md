@@ -369,5 +369,31 @@ Refer to `lib/injection_container.dart` for the full setup and customization opt
 
 ---
 
+## 🧪 Widget Testing for Pages
+
+Widget tests are implemented for each major page to ensure UI components render correctly, respond to user interactions, and integrate with BLoC states as expected.
+
+### Widget Test Coverage
+- Located in: `test/features/products/presentation/pages/`
+- Example test files:
+  - `products_list_page_test.dart`: Verifies product list rendering, loading indicator, error messages, and navigation
+  - `product_detail_page_test.dart`: Checks product details display, loading/error states, and back navigation
+  - `product_form_page_test.dart`: Tests form validation, submission, and state changes
+
+### Testing Approach
+- Uses `flutter_test` and `mocktail` for widget and BLoC mocking
+- Simulates user actions (tap, input, navigation)
+- Verifies correct widget tree and state transitions
+- Mocks BLoC states to test UI responses for loading, success, and error scenarios
+
+**Run all widget tests:**
+```powershell
+flutter test test/features/products/presentation/pages/
+```
+
+Refer to each test file for detailed scenarios and sample widget test cases.
+
+---
+
 This layered approach ensures scalable, maintainable, and testable presentation logic. As the app grows, the presentation layer will expand to include advanced dependency injection and rich UI components.
 
