@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/styles.dart';
-import '../../../../injection_container.dart';
 import '../bloc/products_bloc.dart';
 import '../widgets/notification_icon.dart';
 import '../widgets/product_widget.dart';
@@ -16,7 +15,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         backgroundColor: Colors.white,
-
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -57,44 +55,44 @@ class HomePage extends StatelessWidget {
           child: const Icon(Icons.add),
         ),
       ),
-
+      // The BlocProvider has been removed from here.
       body: SingleChildScrollView(
-        child: BlocProvider(
-          create: (context) =>
-              sl<ProductsBloc>()..add(const LoadAllProductsEvent()),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Available Products', style: h1()),
-                    customIcon(Icons.search, false, context),
-                  ],
-                ),
-                BlocBuilder<ProductsBloc, ProductsState>(
-                  builder: (context, state) {
-                    if (state is LoadingState) {
-                      return const CircularProgressIndicator();
-                    } else if (state is LoadedAllProductsState) {
-                      return ListView.builder(
-                        itemCount: state.products.length,
-                        itemBuilder: (context, index) {
-                          final product = state.products[index];
-                          return productWidget(product, context);
-                        },
-                      );
-                    } else if (state is ErrorState) {
-                      return Text('Failed to load products: ${state.message}');
-                    } else {
-                      return const Text('An unknown error occurred');
-                    }
-                  },
-                ),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Available Products', style: h1()),
+                  customIcon(Icons.search, false, context),
+                ],
+              ),
+              BlocBuilder<ProductsBloc, ProductsState>(
+                builder: (context, state) {
+                  if (state is LoadingState) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is LoadedAllProductsState) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.products.length,
+                      itemBuilder: (context, index) {
+                        final product = state.products[index];
+                        return productWidget(product, context);
+                      },
+                    );
+                  } else if (state is ErrorState) {
+                    return Center(
+                      child: Text('Failed to load products: ${state.message}'),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),

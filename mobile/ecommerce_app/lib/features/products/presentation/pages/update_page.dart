@@ -50,18 +50,49 @@ class UpdatePage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios, color: CustomColor.primary),
           onPressed: () => Navigator.pop(context),
         ),
-
-        // 3. Conditionally show delete button in the AppBar for better UX
       ),
-      body: ProductForm(
-        initialProductId: productId,
-        initialProductName: name,
-        initialProductPrice: price,
-        initialProductDescription: description,
-        initialProductImageUrl: imageUrl,
-        submitButtonText: 'Update',
-        onSubmit: (id, name, description, price, imageUrl) {
-          _handleUpdateProduct(context, id, name, description, price, imageUrl);
+      body: BlocConsumer<ProductsBloc, ProductsState>(
+        listener: (context, state) {
+          if (state is UpdatedProductState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Product updated successfully!'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Navigator.pop(context);
+          } else if (state is ErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is LoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return ProductForm(
+            initialProductId: productId,
+            initialProductName: name,
+            initialProductPrice: price,
+            initialProductDescription: description,
+            initialProductImageUrl: imageUrl,
+            submitButtonText: 'Update',
+            onSubmit: (id, name, description, price, imageUrl) {
+              _handleUpdateProduct(
+                context,
+                id,
+                name,
+                description,
+                price,
+                imageUrl,
+              );
+            },
+          );
         },
       ),
     );
