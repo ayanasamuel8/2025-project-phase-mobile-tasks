@@ -318,6 +318,34 @@ Refer to the test file for detailed scenarios and expected state flows.
 
 ---
 
+## 🖼️ UI Pages & Widgets
+
+The app's user interface is built using modular pages and reusable widgets for maintainability and scalability.
+
+### Pages
+- Located in: `lib/features/products/presentation/pages/`
+- Examples:
+  - `products_list_page.dart`: Displays a list of products, connects to BLoC for state management
+  - `product_detail_page.dart`: Shows detailed info for a selected product
+  - `product_form_page.dart`: Used for creating or updating products
+
+### Widgets
+- Located in: `lib/features/products/presentation/widgets/`
+- Examples:
+  - `product_card.dart`: Reusable widget for displaying product info in a card format
+  - `product_list.dart`: Widget for rendering a scrollable list of products
+  - `loading_indicator.dart`: Shows loading spinner during async operations
+  - `error_message.dart`: Displays error messages from BLoC states
+
+### Integration
+- Pages use widgets to compose the UI and connect to BLoC using `BlocProvider` and `BlocBuilder`
+- UI reacts to BLoC states for loading, success, and error scenarios
+- Navigation between pages is handled using Flutter's Navigator
+
+Refer to the respective files for implementation details and usage examples.
+
+---
+
 ## ⚙️ Dependency Injection: injection_container.dart
 
 The app uses a dedicated dependency injection setup to manage and provide instances of repositories, data sources, and BLoCs throughout the app. This is implemented in `injection_container.dart` using the [get_it](https://pub.dev/packages/get_it) package.
