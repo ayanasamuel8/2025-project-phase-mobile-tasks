@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/styles.dart';
 import '../../domain/entities/product.dart';
 
-Widget productWidget(Product product) {
+Widget productWidget(Product product, BuildContext context) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
     child: InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/details',
+          arguments: {'productId': product.id},
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

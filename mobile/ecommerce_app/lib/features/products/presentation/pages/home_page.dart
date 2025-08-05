@@ -83,7 +83,7 @@ class HomePage extends StatelessWidget {
                         itemCount: state.products.length,
                         itemBuilder: (context, index) {
                           final product = state.products[index];
-                          return productWidget(product);
+                          return productWidget(product, context);
                         },
                       );
                     } else if (state is ErrorState) {

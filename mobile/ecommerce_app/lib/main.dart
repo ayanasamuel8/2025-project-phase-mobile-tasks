@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'core/constants/colors.dart';
 import 'features/products/presentation/pages/add_page.dart';
+import 'features/products/presentation/pages/details_page.dart';
 import 'features/products/presentation/pages/home_page.dart';
 import 'features/products/presentation/pages/update_page.dart';
 import 'injection_container.dart' as di;
@@ -38,6 +39,12 @@ class MyApp extends StatelessWidget {
             description: args['description'],
             imageUrl: args['imageUrl'],
           );
+        },
+        '/details': (context) {
+          final args =
+              ModalRoute.of(context)!.settings.arguments
+                  as Map<String, dynamic>;
+          return DetailsPage(productId: args['productId']);
         },
       },
     );
